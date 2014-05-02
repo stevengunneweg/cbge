@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="jseng/main.js"></script>
+	<script type="text/javascript">
+		var eng = new JSEng();
+		window.onload = function() {
+			eng.init(800, 400);
+			var player = new Shape(Shape.types.CIRCLE, 80, 40, 50, 50, 'red', 'blue');
+			eng.stage.addComponent(player);
+
+			var player3 = new Shape(Shape.types.RECTANGLE, 25, 25, 50, 100, 'red', 'blue');
+			player.addComponent(player3);
+			
+			var player2 = new Shape(Shape.types.CIRCLE, 25, 50, 50, 100, 'red', 'blue');
+			player3.addComponent(player2);
+
+			var mover = new Move(player, new Vector(0, 0));
+			player.addComponent(mover);
+
+			var inputMgr = new Input(player);
+			player.addComponent(inputMgr);
+			inputMgr.bind(Input.keys['LEFT_ARROW'], Input.events.KEY_DOWN, function() {
+				mover.velocity.x = -2;
+			}, true);
+			inputMgr.bind(Input.keys['RIGHT_ARROW'], Input.events.KEY_DOWN, function() {
+				mover.velocity.x = 2;
+			}, true);
+			inputMgr.bind(Input.keys['UP_ARROW'], Input.events.KEY_DOWN, function() {
+				mover.velocity.y = -2;
+			}, true);
+			inputMgr.bind(Input.keys['DOWN_ARROW'], Input.events.KEY_DOWN, function() {
+				mover.velocity.y = 2;
+			}, true);
+
+			inputMgr.bind(Input.keys['LEFT_ARROW'], Input.events.KEY_UP, function() {
+				if (mover.velocity.x <= 0) {
+					mover.velocity.x = 0;
+				}				
+			}, true);
+			inputMgr.bind(Input.keys['RIGHT_ARROW'], Input.events.KEY_UP, function() {
+				if (mover.velocity.x >= 0) {
+					mover.velocity.x = 0;
+				}
+			}, true);
+			inputMgr.bind(Input.keys['UP_ARROW'], Input.events.KEY_UP, function() {
+				if (mover.velocity.y < 0) {
+					mover.velocity.y = 0;
+				}
+			}, true);
+			inputMgr.bind(Input.keys['DOWN_ARROW'], Input.events.KEY_UP, function() {
+				if (mover.velocity.y > 0) {
+					mover.velocity.y = 0;
+				}
+			}, true);
+		}
+	</script>
+</head>
+<body>
+</body>
+</html>
